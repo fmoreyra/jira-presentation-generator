@@ -1,5 +1,5 @@
 from atlassian import Jira
-from jira_api import Sprint
+from jira_api import Sprint, Ticket
 
 
 class JiraDataAdapter:
@@ -10,20 +10,24 @@ class JiraDataAdapter:
         self._jira = Jira(url=jira_url, username=jira_username, password=jira_password, cloud=True)
         self._jwt_query = 'Project = "W3D" AND sprint in openSprints() ORDER BY parent ASC'
 
+
     def adapt(self) -> Sprint:
         current_sprint_dict = self._jira.jql(self._jwt_query)
-        print(f"Amount of issues in sprint: {len(current_sprint_dict['issues'])}")
+        sprint = Sprint(number=123)
         for issue in current_sprint_dict['issues']:
-            print("----------------------------------------------------------")
-            print(f"Issue Key: {issue['key']}")
-            print(f"Issue Summary: {issue['fields']['summary']}")
-            print(f"Status: {issue['fields']['status']['name']}")
+            jira_id = issue['key']
+            summary = issue['fields']['summary']
+            status = issue['fields']['status']['name']
             try:
-                print(f"Epic: {issue['fields']['parent']['fields']['summary']}")
+                epic_name = issue['fields']['parent']['fields']['summary']
             except KeyError:
-                print("No related epic")
+                epic_name = "Otros"
+            
             try:
-                print(f"Person in charge: {issue['fields']['assignee']['displayName']}")
+                person_in_charge = issue['fields']['assignee']['displayName']
             except (KeyError, TypeError):
-                print("No person in charge of this ticket, generally we use TEAM here")
-            print("----------------------------------------------------------")
+                person_in_charge = "TEAM"
+
+            sprint.add_ticket(Ticket(jira_id, epic_name, summary, status, person_in_charge))
+        return sprint
+

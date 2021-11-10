@@ -6,6 +6,9 @@ load_dotenv()
 sprint = JiraDataAdapter(jira_url=os.environ['JIRA_URL'],
                          jira_username=os.environ['JIRA_USERNAME'],
                          jira_password=os.environ['JIRA_API_KEY']).adapt()
+sprint.print_tickets()
+
+print("done!")
 
 # Do things with the sprint (Google presentation module uses this instance)
 
