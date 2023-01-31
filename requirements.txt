@@ -1,3 +1,4 @@
 atlassian-python-api<4
 ipdb 
 python-dotenv<0.20
+python-pptx

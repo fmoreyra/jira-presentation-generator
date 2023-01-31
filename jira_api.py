@@ -2,6 +2,14 @@ from dataclasses import dataclass, field
 from typing import List
 
 
+STATUS_COLOR_MAP = {
+    "To Do": (153, 153, 153),
+    "In Progress": (241, 158, 56),
+    "MR": (39, 84, 197),
+    "Done": (72, 117, 44),
+}
+
+
 @dataclass
 class Ticket:
     jira_id: str
@@ -16,6 +24,10 @@ class Ticket:
         assert isinstance(self.summary, str)
         assert isinstance(self.status, str)
         assert isinstance(self.person_in_charge, str)
+
+    @property
+    def status_color_rgb(self):
+        return STATUS_COLOR_MAP[self.status]
 
 
 @dataclass
@@ -37,4 +49,3 @@ class Sprint:
             print(f"Epic: {ticket.epic_name}")
             print(f"Person in charge: {ticket.person_in_charge}")
             print("----------------------------------------------------------")
-
