@@ -16,7 +16,6 @@ sprint = JiraDataAdapter(
 
 sprint.print_tickets()
 
-
 prs = Presentation('template_demo.pptx')
 title_slide_layout = prs.slide_layouts[0]
 epic_slide_layout = prs.slide_layouts[8]
@@ -25,21 +24,31 @@ ticket_slide_layout = prs.slide_layouts[1]
 slide = prs.slides.add_slide(title_slide_layout)
 title = slide.shapes.title
 
-title.text = "Demo - Sprint XXXX"
+title.text = f"Demo - {sprint.name}"
+
+EPIC_TITLE_INDEX = 0
+
+TICKET_LAYOUT_INDEX = 2
+
+TICKET_TITLE_INDEX = 0
+EPIC_NAME_INDEX = 1
+TICKET_ID_INDEX = 2
+PERSON_IN_CHARGE_INDEX = 3
+STATUS_INDEX = 4
 
 epics = []
 for ticket in sprint.tickets:
     if ticket.epic_name not in epics:
         epic_slide = prs.slides.add_slide(epic_slide_layout)
-        epic_slide.shapes[0].text = f"Épica: {ticket.epic_name}"
+        epic_slide.shapes[EPIC_TITLE_INDEX].text = f"Épica: {ticket.epic_name}"
         epics.append(ticket.epic_name)
-    ticket_slide = prs.slides.add_slide(prs.slide_layouts[2])
-    ticket_slide.shapes[0].text = ticket.summary
-    ticket_slide.shapes[1].text = f"Épica: {ticket.epic_name}"
-    ticket_slide.shapes[2].text = ticket.jira_id
-    ticket_slide.shapes[3].text = f"Responsable: {ticket.person_in_charge}"
-    ticket_slide.shapes[4].text = f"Status: {ticket.status}"
-    ticket_slide.shapes[4].fill.solid()
-    ticket_slide.shapes[4].fill.fore_color.rgb = RGBColor(*ticket.status_color_rgb)
+    ticket_slide = prs.slides.add_slide(prs.slide_layouts[TICKET_LAYOUT_INDEX])
+    ticket_slide.shapes[TICKET_TITLE_INDEX].text = ticket.summary
+    ticket_slide.shapes[EPIC_NAME_INDEX].text = f"Épica: {ticket.epic_name}"
+    ticket_slide.shapes[TICKET_ID_INDEX].text = ticket.jira_id
+    ticket_slide.shapes[PERSON_IN_CHARGE_INDEX].text = f"Responsable: {ticket.person_in_charge}"
+    ticket_slide.shapes[STATUS_INDEX].text = f"Status: {ticket.status}"
+    ticket_slide.shapes[STATUS_INDEX].fill.solid()
+    ticket_slide.shapes[STATUS_INDEX].fill.fore_color.rgb = RGBColor(*ticket.status_color_rgb)
 
-prs.save('test.pptx')
+prs.save(f'Demo - {sprint.name}.pptx')

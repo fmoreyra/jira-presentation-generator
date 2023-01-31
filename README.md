@@ -28,7 +28,6 @@ python main.py
 
 ## TODO:
 
-- Obtener sprint id
 - Eliminar slides innecesarias del template
 - Limpiar código de generación de slides
 - FEATURE: Subir imágenes relacionadas a una issue

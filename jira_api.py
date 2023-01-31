@@ -32,7 +32,7 @@ class Ticket:
 
 @dataclass
 class Sprint:
-    number: int
+    name: str
     tickets: List[Ticket] = field(default_factory=list)
 
     def add_ticket(self, ticket):
