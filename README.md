@@ -26,6 +26,19 @@ pip install -r requirements.txt
 python main.py
 ```
 
+- Docker setup locally  (with docker installed and .env fully configured)
+
+```
+make docker-setup
+```
+
+- Run docker image
+
+```
+make docker-get-presentation
+```
+
+
 ## TODO:
 
 - Eliminar slides innecesarias del template

@@ -18,7 +18,9 @@ get-presentation:
 	python main.py
 
 
+docker-setup:
+	docker build -t jira-presentation-generator .
 
 
-
-	
+docker-get-presentation:
+	docker run -v $(pwd):/usr/src/app jira-presentation-generator
