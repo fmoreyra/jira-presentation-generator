@@ -29,13 +29,13 @@ python main.py
 - Docker setup locally  (with docker installed and .env fully configured)
 
 ```
-make docker-setup
+docker build -t jira-presentation-generator .
 ```
 
 - Run docker image
 
 ```
-make docker-get-presentation
+docker run -v $(pwd):/usr/src/app jira-presentation-generator
 ```
 
 
